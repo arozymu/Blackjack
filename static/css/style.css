@@ -17,7 +17,7 @@
 }
 
 .flex-blackjack-row-1, .flex-blackjack-row-2{
-    background: url('https://www.shutterstock.com/image-illustration/casino-background-208627783') center;
+    background: url('https://us.123rf.com/450wm/yamabikay/yamabikay1612/yamabikay161200085/69448418-poker-table-felt-background-high-resolution-photo-.jpg?ver=6') center;
     color: #ffffff;
 }
 
@@ -32,6 +32,22 @@
 .flex-blackjack-row-1 img {
     width: 25%;
     padding: 10px;
+}
+
+.flex-blackjack-row-2 button {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.flex-blackjack-row-2 div {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+table, th, td {
+    padding: 1px;
+    border: 1px solid black;
+
 }
 
 .flex-box-container-1 div {
