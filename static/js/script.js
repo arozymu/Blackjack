@@ -12,6 +12,9 @@ const hitSound = new Audio('static/sounds/swish.m4a');
 
 document.querySelector('#blackjack-hit-button').addEventListener('click', blackjackHit);
 
+document.querySelector('#blackjack-stand-button').addEventListener('click', blackjackStand);
+
+
 document.querySelector('#blackjack-deal-button').addEventListener('click', blackjackDeal);
 
 function blackjackHit() {
@@ -48,14 +51,24 @@ function blackjackDeal() {
     for (i=0; i< dealerImages.length; i++) {
         dealerImages[i].remove();
     }
+    YOU['score'] = 0;
+    DEALER['score'] = 0;
+
+    document.querySelector('#your-blackjack-result').textContent = 0;
+    document.querySelector('#dealer-blackjack-result').textContent = 0;
+
+    document.querySelector('#your-blackjack-result').style.color = '#ffffff';
+    document.querySelector('#dealer-blackjack-result').style.color = '#ffffff';
+
+
 }
 
 function updateScore(card, activePlayer) {
     if (card === 'A') {
         // if adding 11 keeps me below 21,add 11. otherwise, add 1
-    IF (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <=21) {
+    if (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <=21) {
         activePlayer['score'] + blackjackGame['cardsMap'][card][1];
-    } else  {
+    } else {
         activePlayer['score'] += blackjackGame['cardsMap'][card][0];
      }
     } else {
@@ -67,9 +80,47 @@ function updateScore(card, activePlayer) {
 function showScore(activePlayer) {
     if (activePlayer['score'] > 21) {
         document.querySelector(activePlayer['scoreSpan']).textContent = 'BUST!';
-        document.querySelector(activePlayer['scoreSpan']).textContent = 'RED!';
+        document.querySelector(activePlayer['scoreSpan']).textContent = 'red!';
 
     } else {
     document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
  }
+}
+
+function dealerLogic() {
+    let card = randomCard();
+    showCard(card, DEALER);
+    updateScore(card,DEALER);
+    showScore(DEALER);
+}
+
+// compute winner and return who just won
+
+function computeWinner() {
+    let winner;
+
+    if (YOU['score'] <= 21) {
+        // condition: higher score than dealer or when dealer busts but you are
+        if (YOU['score'] > DEALER['score'] || (DEALER['score'] > 21)) {
+            console.log('You won!');
+            winner =  YOU;
+        } else if (YOU['score'] < DEALER['score']) {
+            console.log('You lost!');
+            winner = DEALER;
+
+
+        } else if (YOU['score'] === DEALER['score']) {
+            console.log('You drew!');
+        }
+        // condition: when user busts but dealer doesn't
+    } else if (YOU['score'] > 21 && DEALER['score'] <= 21) {
+        console.log('You lost!');
+        winner = DEALER;
+
+        // condition: when you and the dealer busts
+    } else if (YOU['score'] > 21 && DEALER['score'] > 21) {
+        console.log('You drew!');
+    }
+
+    return winner;
 }
